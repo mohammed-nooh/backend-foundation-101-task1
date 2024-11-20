@@ -1,8 +1,10 @@
+require('dotenv').config();
 const express=require("express");
 
 
 const app=express();
 
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
@@ -14,8 +16,8 @@ app.get('/hello',(req,res)=>{
 })
 
 app.get('/time',(req,res)=>{
-    const time=new Date().toLocaleString();
-    res.status(200).json(`the date and time is ${time}`);
+    const time=new Date().toISOString();
+    res.status(200).json(`current time is ${time}`);
 })
 
 app.get('/health',(req,res)=>{
@@ -39,6 +41,6 @@ app.use((err, req, res, next) => {
   });
 
 
-  app.listen(3000, () => {
-    console.log(`Server running on port 3000`);
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
   });
