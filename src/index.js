@@ -4,12 +4,8 @@ const express=require("express");
 const app=express();
 
 
-app.use(welcomeHandler);
+app.use(express.json());
 
-function welcomeHandler(req,res,next){
-    console.log("welcome bro");
-    next();
-}
 
 
 app.get('/hello',(req,res)=>{
@@ -18,12 +14,23 @@ app.get('/hello',(req,res)=>{
 })
 
 app.get('/time',(req,res)=>{
-    console.log(new Date().toLocaleString());
-    const user=req.query.name;
     const time=new Date().toLocaleString();
-    res.status(200).json(`the name is ${user} and time is ${time}`);
+    res.status(200).json(`the date and time is ${time}`);
 })
 
+app.get('/health',(req,res)=>{
+    const data={
+        uptime:process.uptime(),
+        message:"ok",
+        responseTime:process.hrtime(),
+        date:new Date().toLocaleString()
+    }
+    res.status(200).json(data);
+})
+
+app.post('/echo',(req,res)=>{
+    res.status(200).json(req.body);
+})
 
 
 app.use((err, req, res, next) => {
